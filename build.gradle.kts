@@ -23,6 +23,8 @@ dependencies {
     compileOnly("org.projectlombok:lombok:1.18.32")
     annotationProcessor("org.projectlombok:lombok:1.18.32")
     compileOnly(fileTree("D:\\Local Minecraft Server\\plugins") { include("bukkit-utils.jar") })
+
+    compileOnly(fileTree("D:\\Minecraft Dev\\artifacts\\") { include("moderation-api.jar") })
 }
 
 tasks.withType<JavaCompile> {
@@ -45,6 +47,7 @@ bukkit {
     version = "${project.version}"
     main = "me.davipccunha.tests.chatchannels.ChatChannelsPlugin"
     depend = listOf("bukkit-utils")
+    softDepend = listOf("moderation")
     description = "Plugin that separates the chat into different channels and format it accordingly."
     author = "Davi C"
 

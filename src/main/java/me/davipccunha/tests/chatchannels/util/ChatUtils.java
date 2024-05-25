@@ -1,5 +1,7 @@
 package me.davipccunha.tests.chatchannels.util;
 
+import me.davipccunha.tests.moderation.api.ModerationAPI;
+import me.davipccunha.tests.moderation.api.model.Mute;
 import me.davipccunha.utils.player.PermissionUtils;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
@@ -32,5 +34,25 @@ public class ChatUtils {
         return sending ?
                 String.format("§8[DM] [Você §7➤ §8%s]: §9%s", playerName, message) :
                 String.format("§8[DM] [%s §7➤ §8Você]: §9%s", playerName, message);
+    }
+
+    public static boolean checkMute(ModerationAPI api, Player player) {
+        if (api == null) return false;
+
+        final Mute mute = api.getMute(player.getName().toLowerCase());
+        if (mute != null) {
+            final boolean isExpired = System.currentTimeMillis() >= mute.getExpiresAt();
+
+            if (isExpired) {
+                api.unmute(player.getName().toLowerCase(), "CONSOLE");
+            } else {
+                final String mutedMessage = mute.getRestrictionMessage();
+                player.sendMessage(mutedMessage);
+
+                return true;
+            }
+        }
+
+        return false;
     }
 }

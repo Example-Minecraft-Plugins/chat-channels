@@ -1,9 +1,8 @@
 package me.davipccunha.tests.chatchannels.command;
 
-import lombok.RequiredArgsConstructor;
+import me.davipccunha.tests.chatchannels.ChatChannelsPlugin;
 import me.davipccunha.tests.chatchannels.util.ChatUtils;
 import me.davipccunha.utils.messages.ErrorMessages;
-import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -13,9 +12,14 @@ import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-@RequiredArgsConstructor
 public class LocalCommand implements CommandExecutor {
+    private final ChatChannelsPlugin plugin;
     private final int radius;
+
+    public LocalCommand(ChatChannelsPlugin plugin) {
+        this.plugin = plugin;
+        this.radius = this.getRadius();
+    }
 
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
@@ -30,6 +34,10 @@ public class LocalCommand implements CommandExecutor {
         }
 
         final Player player = (Player) sender;
+
+        final boolean isMuted = ChatUtils.checkMute(this.plugin.getModerationAPI(), player);
+        if (isMuted) return true;
+
         final Set<Player> nearbyPlayers = this.getNearbyPlayers(player);
 
         if (nearbyPlayers.isEmpty()) {
@@ -61,5 +69,9 @@ public class LocalCommand implements CommandExecutor {
                 .map(entity -> (Player) entity);
 
         return nearbyPlayers.collect(Collectors.toSet());
+    }
+
+    private int getRadius() {
+        return this.plugin.getConfig().getInt("local-radius");
     }
 }
