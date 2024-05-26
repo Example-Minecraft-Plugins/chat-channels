@@ -2,10 +2,7 @@ package me.davipccunha.tests.chatchannels;
 
 import lombok.Getter;
 import me.davipccunha.tests.chatchannels.cache.LastTellCache;
-import me.davipccunha.tests.chatchannels.command.GlobalCommand;
-import me.davipccunha.tests.chatchannels.command.LocalCommand;
-import me.davipccunha.tests.chatchannels.command.ReplyCommand;
-import me.davipccunha.tests.chatchannels.command.TellCommand;
+import me.davipccunha.tests.chatchannels.command.*;
 import me.davipccunha.tests.chatchannels.listener.AsyncPlayerChatListener;
 import me.davipccunha.tests.moderation.api.ModerationAPI;
 import org.bukkit.Bukkit;
@@ -51,5 +48,6 @@ public class ChatChannelsPlugin extends JavaPlugin {
         getCommand("local").setExecutor(new LocalCommand(this));
         getCommand("responder").setExecutor(new ReplyCommand(this.lastTellCache));
         getCommand("tell").setExecutor(new TellCommand(this.lastTellCache));
+        getCommand("staffchat").setExecutor(new StaffChatCommand());
     }
 }

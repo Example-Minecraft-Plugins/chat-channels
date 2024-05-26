@@ -36,6 +36,12 @@ public class ChatUtils {
                 String.format("§8[DM] [%s §7➤ §8Você]: §9%s", playerName, message);
     }
 
+    public static String formatStaffChatMessage(CommandSender sender, String message) {
+        final String playerName = sender.getName();
+
+        return String.format("§5[SC] %s: §d%s", playerName, message);
+    }
+
     public static boolean checkMute(ModerationAPI api, Player player) {
         if (api == null) return false;
 

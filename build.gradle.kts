@@ -62,14 +62,19 @@ bukkit {
             description = "Envia uma mensagem para os jogadores próximos"
         }
 
+        register("tell") {
+            aliases = listOf("msg")
+            description = "Envia uma mensagem privada para um jogador"
+        }
+
         register("responder") {
             aliases = listOf("r", "resp")
             description = "Envia uma mensagem privada à última pessoa que te enviou uma mensagem privada"
         }
 
-        register("tell") {
-            aliases = listOf("msg")
-            description = "Envia uma mensagem privada para um jogador"
+        register("staffchat") {
+            aliases = listOf("sc")
+            description = "Envia uma mensagem para todos os membros da equipe"
         }
     }
 }
